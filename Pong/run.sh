@@ -1,3 +1,3 @@
 #!/bin/bash
 source venv/bin/activate
-python3 src/main.py
+PYTHONPATH=src python3 -m src.main
