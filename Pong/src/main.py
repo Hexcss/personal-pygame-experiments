@@ -13,6 +13,7 @@ PAD_HEIGHT = 140
 PAD_WIDTH = 10
 
 player_speed = 0
+opponent_speed = 7
 
 BG_COLOR = pygame.Color("gray1")
 LIGHT_GREY = (200,200,200)
@@ -45,6 +46,25 @@ def ball_animation(ball, ball_speed):
     if ball.colliderect(player) or ball.colliderect(opponent):
         ball_speed.x *= -1
 
+def player_animation():
+    player.y += player_speed
+
+    if player.top <= 0:
+        player.top = BORDER_OFFSET
+    if player.bottom > SCREEN_HEIGHT:
+        player.bottom = SCREEN_HEIGHT - BORDER_OFFSET
+
+def opponent_animation():
+    if opponent.top < ball.y:
+        opponent.top += opponent_speed
+    if opponent.bottom > ball.y:
+        opponent.bottom -= opponent_speed
+
+    if opponent.top <= 0:
+        opponent.top = BORDER_OFFSET
+    if opponent.bottom >= SCREEN_HEIGHT:
+        opponent.bottom = SCREEN_HEIGHT - BORDER_OFFSET
+
 while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -62,12 +82,8 @@ while run:
                 player_speed +=7
 
     ball_animation(ball, ball_speed)
-    player.y += player_speed
-
-    if player.top <= 0:
-        player.top = BORDER_OFFSET
-    if player.bottom > SCREEN_HEIGHT:
-        player.bottom = SCREEN_HEIGHT - BORDER_OFFSET
+    player_animation()
+    opponent_animation()
 
     #Visuals
     screen.fill(BG_COLOR)
